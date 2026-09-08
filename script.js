@@ -1,106 +1,135 @@
-// ================================
+// ==========================================
 // MOBILE MENU
-// ================================
+// ==========================================
 
 const menuBtn = document.getElementById("menuBtn");
 const navMenu = document.getElementById("navMenu");
 
-menuBtn.addEventListener("click", () => {
-
-  navMenu.classList.toggle("open");
-
-});
-
-
-// بستن منو بعد از انتخاب لینک
-
-document.querySelectorAll("#navMenu a").forEach(link => {
-
-  link.addEventListener("click", () => {
-
-    navMenu.classList.remove("open");
-
+if (menuBtn && navMenu) {
+  menuBtn.addEventListener("click", () => {
+    navMenu.classList.toggle("open");
   });
 
-});
-
-
-// ================================
-// COURSE BUTTONS
-// ================================
-
-const courseSelect =
-  document.getElementById("courseSelect");
-
-document.querySelectorAll(".course-button")
-  .forEach(button => {
-
-    button.addEventListener("click", () => {
-
-      const selectedCourse =
-        button.dataset.course;
-
-      courseSelect.value = selectedCourse;
-
-      document
-        .getElementById("contact")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
-
+  // بستن منو بعد از کلیک روی لینک
+  document.querySelectorAll("#navMenu a").forEach(link => {
+    link.addEventListener("click", () => {
+      navMenu.classList.remove("open");
     });
+  });
+}
+
+
+// ==========================================
+// COURSE SELECTION
+// ==========================================
+
+const courseSelect = document.getElementById("courseSelect");
+const contactSection = document.getElementById("contact");
+
+document.querySelectorAll(".course-button").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const selectedCourse = button.dataset.course;
+
+    if (courseSelect) {
+      courseSelect.value = selectedCourse;
+    }
+
+    if (contactSection) {
+      contactSection.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
 
   });
 
+});
 
-// ================================
+
+// ==========================================
 // REGISTER FORM
-// ================================
+// ==========================================
 
-const form =
+const registerForm =
   document.getElementById("registerForm");
 
 const message =
   document.getElementById("message");
 
-form.addEventListener("submit", function(event) {
+if (registerForm) {
 
-  event.preventDefault();
+  registerForm.addEventListener("submit", function(event) {
 
-  const name =
-    document.getElementById("name")
-      .value.trim();
+    event.preventDefault();
 
-  const phone =
-    document.getElementById("phone")
-      .value.trim();
+    const name =
+      document.getElementById("name").value.trim();
 
-  const course =
-    courseSelect.value;
+    const phone =
+      document.getElementById("phone").value.trim();
+
+    const course =
+      courseSelect.value;
 
 
-  if (!name || !phone || !course) {
+    // بررسی اطلاعات
+    if (!name || !phone || !course) {
 
+      message.textContent =
+        "لطفاً تمام اطلاعات را کامل کنید.";
+
+      return;
+    }
+
+
+    // پیام موفقیت
     message.textContent =
-      "لطفاً تمام اطلاعات را وارد کنید.";
+      `درخواست ثبت‌نام شما برای دوره «${course}» با موفقیت ثبت شد.`;
 
+    // پاک کردن فرم
+    registerForm.reset();
+
+  });
+
+}
+
+
+// ==========================================
+// CURRENT YEAR
+// ==========================================
+
+const yearElement =
+  document.getElementById("year");
+
+if (yearElement) {
+
+  yearElement.textContent =
+    new Date().getFullYear();
+
+}
+
+
+// ==========================================
+// CLOSE MENU WHEN CLICKING OUTSIDE
+// ==========================================
+
+document.addEventListener("click", function(event) {
+
+  if (!navMenu || !menuBtn) {
     return;
+  }
+
+  const clickedInsideMenu =
+    navMenu.contains(event.target);
+
+  const clickedMenuButton =
+    menuBtn.contains(event.target);
+
+  if (!clickedInsideMenu && !clickedMenuButton) {
+
+    navMenu.classList.remove("open");
 
   }
 
-
-  message.textContent =
-    `درخواست شما برای دوره ${course} ثبت شد.`;
-
-  form.reset();
-
 });
-
-
-// ================================
-// CURRENT YEAR
-// ================================
-
-document.getElementById("year")
-  .textContent =
-  new Date().getFullYear();
