@@ -1,135 +1,127 @@
-// ==========================================
+// ===============================
 // MOBILE MENU
-// ==========================================
+// ===============================
 
 const menuBtn = document.getElementById("menuBtn");
 const navMenu = document.getElementById("navMenu");
 
 if (menuBtn && navMenu) {
-  menuBtn.addEventListener("click", () => {
-    navMenu.classList.toggle("open");
-  });
 
-  // بستن منو بعد از کلیک روی لینک
-  document.querySelectorAll("#navMenu a").forEach(link => {
-    link.addEventListener("click", () => {
-      navMenu.classList.remove("open");
+    menuBtn.addEventListener("click", function () {
+        navMenu.classList.toggle("open");
     });
-  });
+
 }
 
 
-// ==========================================
-// COURSE SELECTION
-// ==========================================
+// ===============================
+// CLOSE MOBILE MENU
+// ===============================
 
-const courseSelect = document.getElementById("courseSelect");
-const contactSection = document.getElementById("contact");
+document.querySelectorAll("#navMenu a").forEach(function (link) {
 
-document.querySelectorAll(".course-button").forEach(button => {
+    link.addEventListener("click", function () {
 
-  button.addEventListener("click", () => {
+        if (navMenu) {
+            navMenu.classList.remove("open");
+        }
 
-    const selectedCourse = button.dataset.course;
-
-    if (courseSelect) {
-      courseSelect.value = selectedCourse;
-    }
-
-    if (contactSection) {
-      contactSection.scrollIntoView({
-        behavior: "smooth"
-      });
-    }
-
-  });
+    });
 
 });
 
 
-// ==========================================
+// ===============================
+// COURSE BUTTONS
+// ===============================
+
+const courseSelect =
+    document.getElementById("courseSelect");
+
+const contact =
+    document.getElementById("contact");
+
+document.querySelectorAll(".course-button")
+    .forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const course =
+                button.dataset.course;
+
+            if (courseSelect) {
+                courseSelect.value = course;
+            }
+
+            if (contact) {
+
+                contact.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        });
+
+    });
+
+
+// ===============================
 // REGISTER FORM
-// ==========================================
+// ===============================
 
 const registerForm =
-  document.getElementById("registerForm");
+    document.getElementById("registerForm");
 
 const message =
-  document.getElementById("message");
+    document.getElementById("message");
 
 if (registerForm) {
 
-  registerForm.addEventListener("submit", function(event) {
+    registerForm.addEventListener("submit", function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const name =
-      document.getElementById("name").value.trim();
+        const name =
+            document.getElementById("name").value.trim();
 
-    const phone =
-      document.getElementById("phone").value.trim();
+        const phone =
+            document.getElementById("phone").value.trim();
 
-    const course =
-      courseSelect.value;
-
-
-    // بررسی اطلاعات
-    if (!name || !phone || !course) {
-
-      message.textContent =
-        "لطفاً تمام اطلاعات را کامل کنید.";
-
-      return;
-    }
+        const course =
+            courseSelect.value;
 
 
-    // پیام موفقیت
-    message.textContent =
-      `درخواست ثبت‌نام شما برای دوره «${course}» با موفقیت ثبت شد.`;
+        if (!name || !phone || !course) {
 
-    // پاک کردن فرم
-    registerForm.reset();
+            message.textContent =
+                "لطفاً اطلاعات را کامل کنید.";
 
-  });
+            return;
+
+        }
+
+
+        message.textContent =
+            `درخواست شما برای «${course}» با موفقیت ثبت شد.`;
+
+        registerForm.reset();
+
+    });
 
 }
 
 
-// ==========================================
+// ===============================
 // CURRENT YEAR
-// ==========================================
+// ===============================
 
-const yearElement =
-  document.getElementById("year");
+const year =
+    document.getElementById("year");
 
-if (yearElement) {
+if (year) {
 
-  yearElement.textContent =
-    new Date().getFullYear();
+    year.textContent =
+        new Date().getFullYear();
 
 }
-
-
-// ==========================================
-// CLOSE MENU WHEN CLICKING OUTSIDE
-// ==========================================
-
-document.addEventListener("click", function(event) {
-
-  if (!navMenu || !menuBtn) {
-    return;
-  }
-
-  const clickedInsideMenu =
-    navMenu.contains(event.target);
-
-  const clickedMenuButton =
-    menuBtn.contains(event.target);
-
-  if (!clickedInsideMenu && !clickedMenuButton) {
-
-    navMenu.classList.remove("open");
-
-  }
-
-});
